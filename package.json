@@ -1,12 +1,12 @@
 {
-  "name": "uni-preset-vue",
-  "version": "0.0.0",
+  "name": "music",
+  "version": "1.0.0",
   "scripts": {
     "dev:app": "uni -p app",
     "dev:app-android": "uni -p app-android",
     "dev:app-ios": "uni -p app-ios",
     "dev:custom": "uni -p",
-    "dev:h5": "uni",
+    "dev": "uni",
     "dev:h5:ssr": "uni --ssr",
     "dev:mp-weixin": "uni -p mp-weixin",
     "build:app": "uni build -p app",
@@ -27,11 +27,15 @@
     "@dcloudio/uni-mp-weixin": "3.0.0-3081220230817001",
     "@types/qs": "^6.9.11",
     "axios": "^1.6.7",
-    "pinia": "^2.1.7",
+    "delegate": "^3.2.0",
+    "nutui-uniapp": "^1.6.7",
+    "pinia": "^2.0.3",
     "pinia-plugin-persistedstate": "^3.2.1",
     "qs": "^6.11.2",
+    "sass": "^1.70.0",
     "vue": "^3.2.45",
-    "vue-i18n": "^9.1.9"
+    "vue-i18n": "^9.1.9",
+    "xgplayer": "^3.0.10"
   },
   "devDependencies": {
     "@dcloudio/types": "^3.3.2",

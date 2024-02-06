@@ -7,7 +7,7 @@
       "@/*": ["./src/*"]
     },
     "lib": ["esnext", "dom"],
-    "types": ["@dcloudio/types"]
+    "types": ["@dcloudio/types", "nutui-uniapp/global.d.ts"]
   },
   "include": [
     "src/**/*.ts",
