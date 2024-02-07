@@ -2,24 +2,28 @@
   "pages": [
     {
       "path": "pages/music/index",
+      "name": "music",
       "style": {
         "navigationBarTitleText": "音乐"
       }
     },
     {
       "path": "pages/video/index",
+      "name": "video",
       "style": {
         "navigationBarTitleText": "视频"
       }
     },
     {
       "path": "pages/photo/index",
+      "name": "photo",
       "style": {
         "navigationBarTitleText": "照片"
       }
     },
     {
       "path": "pages/playMusic/index",
+      "name": "playMusic",
       "style": {
         "navigationBarTitleText": "播放音乐"
       }
