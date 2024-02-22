@@ -35,7 +35,7 @@
     "@dcloudio/uni-mp-xhs": "3.0.0-3090920231225001",
     "@dcloudio/uni-quickapp-webview": "3.0.0-3090920231225001",
     "@types/qs": "^6.9.11",
-    "axios": "^1.6.7",
+    "luch-request": "^3.1.1",
     "nutui-uniapp": "^1.6.7",
     "pinia": "^2.0.3",
     "pinia-plugin-persistedstate": "^3.2.1",
