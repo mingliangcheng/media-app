@@ -1,7 +1,7 @@
 {
   "globalStyle": {
     "navigationStyle": "default",
-    "navigationBarTitleText": "unibest",
+    "navigationBarTitleText": "media",
     "navigationBarBackgroundColor": "#f8f8f8",
     "navigationBarTextStyle": "black",
     "backgroundColor": "#FFFFFF"
@@ -15,7 +15,7 @@
   },
   "tabBar": {
     "color": "#999999",
-    "selectedColor": "#018d71",
+    "selectedColor": "#409EFF",
     "backgroundColor": "#F8F8F8",
     "borderStyle": "black",
     "height": "50px",
@@ -24,16 +24,28 @@
     "spacing": "3px",
     "list": [
       {
-        "iconPath": "static/tabbar/home.png",
-        "selectedIconPath": "static/tabbar/homeHL.png",
+        "iconPath": "static/tabbar/shouye.png",
+        "selectedIconPath": "static/tabbar/shouye-select.png",
         "pagePath": "pages/index/index",
         "text": "首页"
       },
       {
-        "iconPath": "static/tabbar/example.png",
-        "selectedIconPath": "static/tabbar/exampleHL.png",
-        "pagePath": "pages/about/about",
-        "text": "关于"
+        "iconPath": "static/tabbar/yinyue.png",
+        "selectedIconPath": "static/tabbar/yinyue-select.png",
+        "pagePath": "pages/music/index",
+        "text": "音乐"
+      },
+      {
+        "iconPath": "static/tabbar/shipin.png",
+        "selectedIconPath": "static/tabbar/shipin-select.png",
+        "pagePath": "pages/video/index",
+        "text": "视频"
+      },
+      {
+        "iconPath": "static/tabbar/wode.png",
+        "selectedIconPath": "static/tabbar/wode-select.png",
+        "pagePath": "pages/my/index",
+        "text": "我的"
       }
     ]
   },
@@ -48,15 +60,27 @@
     },
     {
       "path": "pages/music/index",
-      "type": "page"
-    },
-    {
-      "path": "pages/my/index",
-      "type": "page"
+      "type": "page",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "音乐"
+      }
     },
     {
       "path": "pages/video/index",
-      "type": "page"
+      "type": "page",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "视频"
+      }
+    },
+    {
+      "path": "pages/my/index",
+      "type": "page",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "我的"
+      }
     }
   ],
   "subPackages": []
