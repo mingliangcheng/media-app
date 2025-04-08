@@ -56,4 +56,7 @@ image {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
+uni-page-body {
+  height: 100%;
+}
 </style>
