@@ -109,9 +109,6 @@ onLoad(() => {
 </script>
 
 <style lang="scss" scoped>
-.home-container {
-  background: #f5f5f5;
-}
 .wd-search {
   padding-right: 0;
   padding-left: 0;
