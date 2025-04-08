@@ -87,7 +87,15 @@
 				"navigationStyle": "default",
 				"navigationBarTitleText": "登录"
 			}
-		}
+		},
+    {
+      "path": "pages/login/register",
+      "type": "page",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "注册"
+      }
+    }
 	],
 	"subPackages": []
 }
