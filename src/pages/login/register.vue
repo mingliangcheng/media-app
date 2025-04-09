@@ -12,6 +12,24 @@
           :rules="[{ required: true, message: '请填写手机号码' }]"
         />
         <wd-input
+          label="用户名"
+          label-width="100px"
+          prop="value1"
+          clearable
+          v-model="model.value1"
+          placeholder="请输入用户名"
+          :rules="[{ required: true, message: '请填写用户名' }]"
+        />
+        <wd-input
+          label="电子邮箱"
+          label-width="100px"
+          prop="value1"
+          clearable
+          v-model="model.value1"
+          placeholder="请输入电子邮箱"
+          :rules="[{ required: true, message: '请填写电子邮箱' }]"
+        />
+        <wd-input
           label="密码"
           label-width="100px"
           prop="value2"

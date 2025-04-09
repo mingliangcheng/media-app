@@ -13,7 +13,6 @@
                   label="用户名"
                   label-width="100px"
                   prop="value1"
-                  clearable
                   v-model="model.value1"
                   placeholder="请输入用户名"
                   :rules="[{ required: true, message: '请填写用户名' }]"
@@ -23,7 +22,6 @@
                   label-width="100px"
                   prop="value2"
                   show-password
-                  clearable
                   v-model="model.value2"
                   placeholder="请输入密码"
                   :rules="[{ required: true, message: '请填写密码' }]"
@@ -40,7 +38,6 @@
                   label="手机号"
                   label-width="100px"
                   prop="value1"
-                  clearable
                   v-model="model.value1"
                   placeholder="请输入手机号"
                   :rules="[{ required: true, message: '请输入手机号' }]"
@@ -49,7 +46,6 @@
                   label="验证码"
                   label-width="100px"
                   prop="value2"
-                  clearable
                   v-model="model.value2"
                   placeholder="请输入验证码"
                   :rules="[{ required: true, message: '请输入验证码' }]"
