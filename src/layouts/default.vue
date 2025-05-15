@@ -1,6 +1,6 @@
 <template>
   <wd-config-provider :themeVars="themeVars">
-    <view class="bg-gray overflow-hidden" :style="{ height: safeAreaInsets?.top + 'px' }"></view>
+    <!--    <view class="bg-gray overflow-hidden" :style="{ height: safeAreaInsets?.top + 'px' }"></view>-->
     <slot />
     <wd-toast />
     <wd-message-box />

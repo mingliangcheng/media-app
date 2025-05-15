@@ -1,8 +1,5 @@
 <template>
-  <view
-    class="bg-white overflow-hidden pt-2 px-4"
-    :style="{ marginTop: safeAreaInsets?.top + 'px' }"
-  >
+  <view class="bg-white">
     <view>音乐</view>
   </view>
 </template>

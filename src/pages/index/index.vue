@@ -3,7 +3,7 @@
     <view class="bg-white p-x mb-3">
       <view class="flex flex-justify-between h-10 flex-items-center">
         <view class="text-xl font-500">音乐视频</view>
-        <view>
+        <view @click="toLogin">
           <wd-icon name="user" class="text-base text-gray mr-1"></wd-icon>
           <text class="text-gray">登录/注册</text>
         </view>
@@ -96,6 +96,12 @@ function handleClick(e) {
 }
 function onChange(e) {
   console.log(e)
+}
+
+const toLogin = () => {
+  uni.navigateTo({
+    url: '/uni_modules/uni-id-pages/pages/login/login-withoutpwd',
+  })
 }
 // 测试 uni API 自动引入
 onLoad(() => {

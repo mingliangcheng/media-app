@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { onLaunch, onShow, onHide } from '@dcloudio/uni-app'
 import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only'
-
-onLaunch(() => {
+import uniIdPageInit from '@/uni_modules/uni-id-pages/init'
+onLaunch(async () => {
   console.log('App Launch')
+  await uniIdPageInit()
 })
 onShow(() => {
   console.log('App Show')
