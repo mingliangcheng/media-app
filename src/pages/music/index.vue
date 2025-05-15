@@ -3,7 +3,13 @@
     <view class="flex flex-col">
       <!-- 搜索栏和分类Tab -->
       <view class="px-4 py-2 box-border">
-        <wd-search v-model="search" cancel-txt="搜索" placeholder="搜索歌曲、歌手" shape="round" />
+        <wd-search
+          disabled
+          @click="search"
+          hide-cancel
+          placeholder="搜索歌曲、歌手"
+          shape="round"
+        />
       </view>
 
       <!-- 发现音乐 -->
@@ -72,7 +78,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const search = ref('')
 const tab = ref(0)
 const categories = ['流行', '摇滚', '电子', '民谣', 'R&B', '嘻哈']
 
@@ -96,6 +101,12 @@ const recommendSongs = [
   { name: '光年之外', singer: '邓紫棋', time: '3:55', cover: '/static/images/song-cover-3.png' },
   { name: '倔强', singer: '五月天', time: '4:30', cover: '/static/images/song-cover-4.png' },
 ]
+
+const search = () => {
+  uni.navigateTo({
+    url: '/pages/music/searchPage',
+  })
+}
 </script>
 
 <style scoped lang="scss">

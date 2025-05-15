@@ -67,6 +67,14 @@
       }
     },
     {
+      "path": "pages/music/searchPage",
+      "type": "page",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "搜索"
+      }
+    },
+    {
       "path": "pages/video/index",
       "type": "page",
       "style": {
