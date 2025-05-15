@@ -21,6 +21,7 @@
               v-for="item in discoverList"
               :key="item.text"
               class="flex flex-col items-center h-18 w-18"
+              @click="jump(item)"
             >
               <wd-img :src="item.icon" width="50" height="50" class="mb-1" />
               <text class="mt-1 text-sm">{{ item.text }}</text>
@@ -82,10 +83,20 @@ const tab = ref(0)
 const categories = ['流行', '摇滚', '电子', '民谣', 'R&B', '嘻哈']
 
 const discoverList = [
-  { icon: '/static/images/recommend-icon.png', text: '每日推荐' },
-  { icon: '/static/images/hot-icon.png', text: '热门歌手' },
-  { icon: '/static/images/rank-icon.png', text: '排行榜' },
-  { icon: '/static/images/song-icon.png', text: '歌单' },
+  {
+    id: 1,
+    icon: '/static/images/recommend-icon.png',
+    text: '每日推荐',
+    path: '/pages/music/hotSongList',
+  },
+  {
+    id: 2,
+    icon: '/static/images/hot-icon.png',
+    text: '热门歌手',
+    path: '/pages/music/hotSongList',
+  },
+  { id: 3, icon: '/static/images/rank-icon.png', text: '排行榜', path: '/pages/music/hotSongList' },
+  { id: 4, icon: '/static/images/song-icon.png', text: '歌单', path: '/pages/music/hotSongList' },
 ]
 
 const hotSingers = [
@@ -105,6 +116,11 @@ const recommendSongs = [
 const search = () => {
   uni.navigateTo({
     url: '/pages/music/searchPage',
+  })
+}
+const jump = (item: { path: string }) => {
+  uni.navigateTo({
+    url: item.path,
   })
 }
 </script>

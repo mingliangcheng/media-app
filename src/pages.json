@@ -75,6 +75,14 @@
       }
     },
     {
+      "path": "pages/music/hotSongList",
+      "type": "page",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "歌单"
+      }
+    },
+    {
       "path": "pages/video/index",
       "type": "page",
       "style": {

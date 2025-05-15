@@ -78,5 +78,11 @@ function clearHistory() {
 .search-container {
   height: 100%;
   overflow-y: auto;
+  .wd-cell {
+    padding-left: 0;
+  }
+  :deep(.wd-cell__wrapper) {
+    align-items: center;
+  }
 }
 </style>
