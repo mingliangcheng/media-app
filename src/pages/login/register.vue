@@ -70,6 +70,7 @@
   </view>
 </template>
 <script setup lang="ts">
+import { ref, reactive } from 'vue'
 const model = reactive<{
   value1: string
   value2: string

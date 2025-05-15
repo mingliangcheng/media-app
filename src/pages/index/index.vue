@@ -75,7 +75,8 @@
 <script lang="ts" setup>
 import { TestEnum } from '@/typings'
 import PLATFORM from '@/utils/platform'
-
+import { ref } from 'vue'
+import { onLoad } from '@dcloudio/uni-app'
 defineOptions({
   name: 'Home',
 })

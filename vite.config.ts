@@ -73,13 +73,13 @@ export default ({ command, mode }) => {
         },
       },
       UnoCSS(),
-      AutoImport({
-        imports: ['vue', 'uni-app'],
-        dts: 'src/types/auto-import.d.ts',
-        dirs: ['src/hooks'], // 自动导入 hooks
-        eslintrc: { enabled: true },
-        vueTemplate: true, // default false
-      }),
+      // AutoImport({
+      //   imports: ['vue', 'uni-app'],
+      //   dts: 'src/types/auto-import.d.ts',
+      //   dirs: ['src/hooks'], // 自动导入 hooks
+      //   eslintrc: { enabled: true },
+      //   vueTemplate: true, // default false
+      // }),
 
       ViteRestart({
         // 通过这个插件，在修改vite.config.js文件则不需要重新运行也生效配置
@@ -102,7 +102,7 @@ export default ({ command, mode }) => {
           brotliSize: true,
         }),
       // 只有在 app 平台时才启用 copyNativeRes 插件
-      UNI_PLATFORM === 'app' && copyNativeRes(),
+      // UNI_PLATFORM === 'app' && copyNativeRes(),
     ],
     define: {
       __UNI_PLATFORM__: JSON.stringify(UNI_PLATFORM),
