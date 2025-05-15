@@ -8,13 +8,7 @@
           <text class="text-gray">登录/注册</text>
         </view>
       </view>
-      <wd-search
-        focus
-        hide-cancel
-        v-model="value"
-        :maxlength="10"
-        placeholder="搜索音乐、视频..."
-      />
+      <wd-search hide-cancel v-model="value" :maxlength="10" placeholder="搜索音乐、视频..." />
     </view>
     <view class="mb-3 bg-white">
       <wd-swiper

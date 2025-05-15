@@ -9,8 +9,6 @@ import UniLayouts from '@uni-helper/vite-plugin-uni-layouts'
 // @see https://github.com/uni-helper/vite-plugin-uni-platform
 // 需要与 @uni-helper/vite-plugin-uni-pages 插件一起使用
 import UniPlatform from '@uni-helper/vite-plugin-uni-platform'
-// @see https://github.com/uni-helper/vite-plugin-uni-manifest
-import UniManifest from '@uni-helper/vite-plugin-uni-manifest'
 // @see https://unocss.dev/
 import { visualizer } from 'rollup-plugin-visualizer'
 import UnoCSS from 'unocss/vite'
@@ -60,7 +58,6 @@ export default ({ command, mode }) => {
       // }),
       UniLayouts(),
       UniPlatform(),
-      UniManifest(),
       // UniXXX 需要在 Uni 之前引入
       Uni(),
       {
@@ -86,7 +83,7 @@ export default ({ command, mode }) => {
 
       ViteRestart({
         // 通过这个插件，在修改vite.config.js文件则不需要重新运行也生效配置
-        restart: ['vite.config.js'],
+        restart: ['vite.config.ts'],
       }),
       // h5环境增加 BUILD_TIME 和 BUILD_BRANCH
       UNI_PLATFORM === 'h5' && {
