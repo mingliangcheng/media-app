@@ -93,7 +93,7 @@ const discoverList = [
     id: 2,
     icon: '/static/images/hot-icon.png',
     text: '热门歌手',
-    path: '/pages/music/hotSongList',
+    path: '/pages/music/singerList',
   },
   { id: 3, icon: '/static/images/rank-icon.png', text: '排行榜', path: '/pages/music/hotSongList' },
   { id: 4, icon: '/static/images/song-icon.png', text: '歌单', path: '/pages/music/hotSongList' },

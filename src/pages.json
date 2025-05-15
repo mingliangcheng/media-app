@@ -83,6 +83,14 @@
       }
     },
     {
+      "path": "pages/music/singerList",
+      "type": "page",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "歌手"
+      }
+    },
+    {
       "path": "pages/video/index",
       "type": "page",
       "style": {
