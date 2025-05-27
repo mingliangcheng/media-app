@@ -8,7 +8,7 @@
     <!-- 歌手分组列表 -->
     <view class="wrapper">
       <wd-index-bar sticky>
-        <view v-for="item in data" :key="item.index">
+        <view v-for="item in data" :key="item.index" @click="goSonglist">
           <wd-index-anchor :index="item.index" />
           <wd-cell border clickable v-for="city in item.data" :key="city" :title="city"></wd-cell>
         </view>
@@ -19,7 +19,11 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-
+const goSonglist = () => {
+  uni.navigateTo({
+    url: '/pages/music/songList',
+  })
+}
 // 歌手分组数据
 const data = [
   {

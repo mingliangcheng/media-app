@@ -90,16 +90,6 @@
 				this.type = type
 			})
 		},
-		onShow() {
-			// #ifdef H5
-			document.onkeydown = event => {
-				var e = event || window.event;
-				if (e && e.keyCode == 13) { //回车键的键值为13
-					this.toSmsPage()
-				}
-			};
-			// #endif
-		},
 		onUnload() {
 			uni.$off('uni-id-pages-setLoginType')
 		},

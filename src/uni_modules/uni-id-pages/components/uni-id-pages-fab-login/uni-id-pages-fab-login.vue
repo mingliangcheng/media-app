@@ -13,6 +13,7 @@
 	import config from '@/uni_modules/uni-id-pages/config.js'
 	//前一个窗口的页面地址。控制点击切换快捷登录方式是创建还是返回
 	import {store,mutations} from '@/uni_modules/uni-id-pages/common/store.js'
+  import { univerifyLogin } from "@/api/modules/login";
 	let allServicesList = []
 	export default {
 		computed: {
@@ -62,38 +63,11 @@
 						"text": "微信登录",
 						"logo": "/uni_modules/uni-id-pages/static/login/uni-fab-login/weixin.png",
 					},
-					{
-						"id": "huawei",
-						"text": "华为登录",
-						"logo": "/uni_modules/uni-id-pages/static/login/uni-fab-login/huawei.png",
-						"path": "/uni_modules/uni-id-pages/pages/login/login-withoutpwd?type=huawei"
-					},
-					{
-						"id": "huaweiMobile",
-						"text": "华为账号一键登录",
-						"logo": "/uni_modules/uni-id-pages/static/login/uni-fab-login/huawei.png",
-						"path": "/uni_modules/uni-id-pages/pages/login/login-withoutpwd?type=huaweiMobile"
-					},
 					// #ifndef MP-WEIXIN
-					{
-						"id": "apple",
-						"text": "苹果登录",
-						"logo": "/uni_modules/uni-id-pages/static/uni-fab-login/apple.png",
-					},
 					{
 						"id": "univerify",
 						"text": "一键登录",
 						"logo": "/uni_modules/uni-id-pages/static/app/uni-fab-login/univerify.png",
-					},
-					{
-						"id": "taobao",
-						"text": "淘宝登录", //暂未提供该登录方式的接口示例
-						"logo": "/uni_modules/uni-id-pages/static/app/uni-fab-login/taobao.png",
-					},
-					{
-						"id": "facebook",
-						"text": "脸书登录", //暂未提供该登录方式的接口示例
-						"logo": "/uni_modules/uni-id-pages/static/app/uni-fab-login/facebook.png",
 					},
 					{
 						"id": "alipay",
@@ -105,21 +79,6 @@
 						"text": "QQ登录", //暂未提供该登录方式的接口示例
 						"logo": "/uni_modules/uni-id-pages/static/app/uni-fab-login/qq.png",
 					},
-					{
-						"id": "google",
-						"text": "谷歌登录", //暂未提供该登录方式的接口示例
-						"logo": "/uni_modules/uni-id-pages/static/app/uni-fab-login/google.png",
-					},
-					{
-						"id": "douyin",
-						"text": "抖音登录", //暂未提供该登录方式的接口示例
-						"logo": "/uni_modules/uni-id-pages/static/app/uni-fab-login/douyin.png",
-					},
-					{
-						"id": "sinaweibo",
-						"text": "新浪微博", //暂未提供该登录方式的接口示例
-						"logo": "/uni_modules/uni-id-pages/static/app/uni-fab-login/sinaweibo.png",
-					}
 					// #endif
 				],
 				univerifyStyle: { //一键登录弹出窗的样式配置参数
@@ -246,22 +205,6 @@
 			},
 			async login_before(type, navigateBack = true, options = {}) {
 				console.log(type, options);
-				//提示空实现
-				if (["qq",
-						"xiaomi",
-						"sinaweibo",
-						"taobao",
-						"facebook",
-						"google",
-						"alipay",
-						"douyin",
-					].includes(type)) {
-					return uni.showToast({
-						title: '该登录方式暂未实现，欢迎提交pr',
-						icon: 'none',
-						duration: 3000
-					});
-				}
 
 				console.log('检查当前环境是否支持这种登录方式')
 				//检查当前环境是否支持这种登录方式
@@ -483,30 +426,17 @@
 				const uniIdCo = uniCloud.importObject("uni-id-co",{
 					customUI:true
 				})
-				uniIdCo[action](params).then(result => {
-					uni.showToast({
-						title: '登录成功',
-						icon: 'none',
-						duration: 2000
-					});
-					// #ifdef H5
-					result.loginType = type
-					// #endif
-					mutations.loginSuccess(result)
-				})
-				.catch(e=>{
-					uni.showModal({
-						content: e.message,
-						confirmText:"知道了",
-						showCancel: false
-					});
-				})
-				.finally(e => {
-					if (type == 'univerify') {
-						uni.closeAuthView()
-					}
-					uni.hideLoading()
-				})
+        univerifyLogin({
+          openid: params.openid,
+          accessToken: params.access_token
+        }).then(res => {
+          console.log(res);
+          uni.showToast({
+            title: '登录成功',
+            icon: 'none',
+            duration: 2000
+          });
+        })
 			},
 			async getUserInfo(e) {
 				return new Promise((resolve, reject) => {

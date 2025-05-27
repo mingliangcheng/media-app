@@ -109,7 +109,7 @@
   </view>
 </template>
 <script setup lang="ts">
-import { useUserStore } from '@/store'
+import { useUserStore } from '@/store/modules/user'
 
 const userStore = useUserStore()
 const logout = () => {

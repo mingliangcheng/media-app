@@ -91,6 +91,23 @@
       }
     },
     {
+      "path": "pages/music/songList",
+      "type": "page",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "音乐列表",
+        "onReachBottomDistance": 50
+      }
+    },
+    {
+      "path": "pages/music/playMusic",
+      "type": "page",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "播放音乐"
+      }
+    },
+    {
       "path": "pages/video/index",
       "type": "page",
       "style": {

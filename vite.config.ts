@@ -19,7 +19,8 @@ import { copyNativeRes } from './vite-plugins/copyNativeRes'
 // https://vitejs.dev/config/
 export default ({ command, mode }) => {
   // console.log(mode === process.env.NODE_ENV) // true
-
+  const root = process.cwd()
+  const env = loadEnv(mode, root)
   // mode: 区分生产环境还是开发环境
   console.log('command, mode -> ', command, mode)
   // pnpm dev:h5 时得到 => serve development
@@ -32,21 +33,17 @@ export default ({ command, mode }) => {
 
   const { UNI_PLATFORM } = process.env
   console.log('UNI_PLATFORM -> ', UNI_PLATFORM) // 得到 mp-weixin, h5, app 等
-
-  const env = loadEnv(mode, path.resolve(process.cwd(), 'env'))
   const {
     VITE_APP_PORT,
     VITE_SERVER_BASEURL,
     VITE_DELETE_CONSOLE,
     VITE_SHOW_SOURCEMAP,
     VITE_APP_PROXY,
-    VITE_APP_PROXY_PREFIX,
+    VITE_BASE_URL_REAL,
   } = env
   console.log('环境变量 env -> ', env)
 
   return defineConfig({
-    envDir: './env', // 自定义env目录
-
     plugins: [
       // UniPages({
       //   exclude: ['**/components/**/**.*'],
@@ -129,16 +126,6 @@ export default ({ command, mode }) => {
       host: '0.0.0.0',
       hmr: true,
       port: Number.parseInt(VITE_APP_PORT, 10),
-      // 仅 H5 端生效，其他端不生效（其他端走build，不走devServer)
-      proxy: JSON.parse(VITE_APP_PROXY)
-        ? {
-            [VITE_APP_PROXY_PREFIX]: {
-              target: VITE_SERVER_BASEURL,
-              changeOrigin: true,
-              rewrite: (path) => path.replace(new RegExp(`^${VITE_APP_PROXY_PREFIX}`), ''),
-            },
-          }
-        : undefined,
     },
     build: {
       // 方便非h5端调试

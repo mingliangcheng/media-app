@@ -1,5 +1,10 @@
 export interface UserState {
-  userInfo: {
-    token: string
-  }
+  token: string
+  userInfo: UserInfo
+  isLogin: boolean
+}
+
+export interface UserInfo {
+  phoneNum: string
+  tmPhoneNum: string
 }
