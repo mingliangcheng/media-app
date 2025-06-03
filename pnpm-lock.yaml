@@ -62,6 +62,9 @@ dependencies:
   dayjs:
     specifier: 1.11.10
     version: 1.11.10
+  lrc-kit:
+    specifier: ^1.1.1
+    version: 1.1.1
   luch-request:
     specifier: ^3.1.1
     version: 3.1.1
@@ -8806,6 +8809,10 @@ packages:
     resolution: {integrity: sha512-tqNXrS78oMOE73NMxK4EMLQsQowWf8jKooH9g7xPavRT706R6bkQJ6DY2Te7QukaZsulxa30wQ7bk0pm4XiHmA==}
     engines: {node: '>=8'}
     dev: true
+
+  /lrc-kit@1.1.1:
+    resolution: {integrity: sha512-n7wRGLWWyjIXpgo4iZQkce/wzZlNUO7dzZKHvwZjFK3e4QaKYyVYasMfN6adpoOibkVVV2TniuGfAlqYf3vngg==}
+    dev: false
 
   /lru-cache@11.1.0:
     resolution: {integrity: sha512-QIXZUBJUx+2zHUdQujWejBkcD9+cs94tLn0+YL8UrCh+D5sCXZ4c7LaEH48pNwRY3MLDgqUFyhlCyjJPf1WP0A==}
