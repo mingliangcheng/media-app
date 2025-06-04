@@ -1,27 +1,24 @@
 <template>
   <view>
-    <view
-      v-for="(song, index) in playlistCopy"
-      :key="song.id"
-      @click="play(index)"
-      class="music-item"
-      :class="{ 'music-item__hover': playIndex === index }"
-    >
-      <view class="music-info">
-        <text class="music-name">{{ song.musicName }}</text>
-        <view class="music-creators">
-          <text class="music-creator">{{ song.musicArtist + ' ' }}</text>
-          <text class="music-al">- {{ song.musicAlbum }}</text>
-        </view>
-      </view>
-    </view>
+    <le-audio
+      ref="leAudioRef"
+      :activeIndex="playIndex"
+      :audioData="playlistCopy"
+      :autoplay="true"
+      :loopPlay="true"
+      :showAudioListIcon="false"
+      :showAudioSpeedIcon="true"
+      :innerAudioContext="audioManager"
+      @onOpenAudioList="onOpenAudioList"
+      @onAudioChange="onAudioChange"
+      @onAudioEnd="onAudioEnd"
+      @onPlayProgress="onPlayProgress"
+      @onPlayOrPause="onPlayOrPause"
+    ></le-audio>
     <view class="bottom">
       <view @click="showFloatWindow">打开浮窗</view>
       <view @click="hideFloatWindow">关闭浮窗</view>
       <view @click="setFavour">{{ favour ? '收藏' : '未收藏' }}</view>
-      <view @click="last">上一首</view>
-      <view @click="playOrPause">{{ playing ? '暂停' : '播放' }}</view>
-      <view @click="next">下一首</view>
       <view @click="switchNotification">{{ systemNotification ? '系统' : '自定义' }}</view>
       <view @click="lockActivity">{{ isLockActivity ? '关闭' : '打开' }}锁屏页</view>
       <view @click="setWidgetStyle">修改小部件</view>
@@ -34,10 +31,10 @@ import { ref, computed } from 'vue'
 import { Lrc, Runner } from 'lrc-kit'
 import playlist from './music.ts'
 import { onLoad, onUnload } from '@dcloudio/uni-app'
-
+import LeAudio from '@/uni_modules/le-audio/components/le-audio/le-audio.vue'
+const leAudioRef = ref<InstanceType<typeof LeAudio>>()
 const playIndex = ref(0) // 播放下标
 const playing = ref(false) // 播放状态
-const playMode = ref('sequence') // 播放模式
 const playlistCopy = ref(playlist) // 本地音乐列表
 const isLockActivity = ref(false) // 是否开启锁屏页
 const isCreateNotification = ref(false) // 是否创建了Notification
@@ -95,17 +92,17 @@ onLoad(() => {
   // 监听暂停或播放按钮事件回调
   plus.globalEvent.addEventListener('musicNotificationPause', (e) => {
     console.log('暂停或播放按钮事件回调', e)
-    playOrPause()
+    leAudioRef.value.onPlayPause()
   })
   // 监听播放上一首按钮事件回调
   plus.globalEvent.addEventListener('musicNotificationPrevious', (e) => {
     console.log('播放上一首按钮事件回调', e)
-    last()
+    leAudioRef.value.onSwitchAudio(playIndex.value - 1)
   })
   // 监听播放下一首按钮事件回调
   plus.globalEvent.addEventListener('musicNotificationNext', (e) => {
     console.log('播放下一首按钮事件回调', e)
-    next()
+    leAudioRef.value.onSwitchAudio(playIndex.value + 1)
   })
   // 监听收藏按钮事件回调
   plus.globalEvent.addEventListener('musicNotificationFavourite', (e) => {
@@ -129,13 +126,13 @@ onLoad(() => {
       case 'headset':
         // 有线耳机事件 拔出： 0, 插入：1
         if (e.keyCode === 0) {
-          playOrPause(false)
+          leAudioRef.value.onPlayPause()
         }
         break
       case 'bluetooth':
         // 蓝牙耳机事件 断开： 0, 打开：1，连接：2
         if (e.keyCode === 0) {
-          playOrPause(false)
+          leAudioRef.value.onPlayPause()
         }
         break
       case 'mediaButton':
@@ -143,23 +140,23 @@ onLoad(() => {
         switch (e.keyCode) {
           case 79:
             /** 谷歌原文 Key code constant: Headset Hook key. Used to hang up calls and stop media. */
-            playOrPause()
+            leAudioRef.value.onPlayPause()
             break
           case 87:
             /** 谷歌原文 Key code constant: Play Next media key. */
-            next()
+            leAudioRef.value.onSwitchAudio(playIndex.value - 1)
             break
           case 88:
             /** 谷歌原文 Key code constant: Play Previous media key. */
-            last()
+            leAudioRef.value.onSwitchAudio(playIndex.value + 1)
             break
           case 126:
             /** 谷歌原文 Key code constant: Play media key. */
-            playOrPause(true)
+            leAudioRef.value.onPlayPause()
             break
           case 127:
             /** 谷歌原文 Key code constant: Pause media key. */
-            playOrPause(false)
+            leAudioRef.value.onPlayPause()
             break
         }
         break
@@ -191,13 +188,13 @@ onLoad(() => {
     console.log('onCanplay')
     const res = musicNotification.value.update({
       // 歌曲名字
-      songName: playlistCopy.value[playIndex.value].musicName,
+      songName: playlistCopy.value[playIndex.value].title,
       // 专辑名字
-      artistsName: playlistCopy.value[playIndex.value].musicArtist,
+      artistsName: playlistCopy.value[playIndex.value].singer,
       // 收藏
       favour: playlistCopy.value[playIndex.value].favour,
       // 专辑图片
-      picUrl: playlistCopy.value[playIndex.value].musicAlbumURl,
+      picUrl: playlistCopy.value[playIndex.value].image,
       // 时长
       duration: audioManager.value.duration * 1000,
     })
@@ -210,8 +207,8 @@ onLoad(() => {
         musicNotification.value.openPermissionSetting() // 没有权限，跳转设置页面
     }
   })
-  audioManager.value.onEnded(() => next())
-  audioManager.value.onError(() => next())
+  audioManager.value.onEnded(() => leAudioRef.value.onSwitchAudio(playIndex.value + 1))
+  audioManager.value.onError(() => leAudioRef.value.onSwitchAudio(playIndex.value + 1))
 })
 onUnload(() => {
   // 移除监听生命周期事件回调
@@ -255,33 +252,6 @@ const checkOverlayDisplayPermission = () => {
   return musicNotification.value.checkOverlayDisplayPermission()
 }
 
-const last = () => {
-  play(--playIndex.value)
-}
-
-const next = () => {
-  play(++playIndex.value)
-}
-
-const play = async (index) => {
-  if (!isCreateNotification.value) await createNotification()
-
-  playIndex.value = index
-  if (playIndex.value < 0) {
-    playIndex.value = playlistCopy.value.length - 1
-  } else if (playIndex.value > playlistCopy.value.length - 1) {
-    playIndex.value = 0
-  }
-
-  const data = playlistCopy.value[playIndex.value]
-  audioManager.value.title = data.musicName
-  audioManager.value.singer = data.musicArtist
-  audioManager.value.coverImgUrl = data.musicAlbumURl
-  audioManager.value.src = data.musicPath
-
-  playOrPause(true)
-}
-
 const createNotification = () => {
   // 创建通知栏，要创建通知栏成功才能做别的操作
   return new Promise((resolve, reject) => {
@@ -290,20 +260,6 @@ const createNotification = () => {
       resolve({})
     })
   })
-}
-
-const playOrPause = (playing) => {
-  console.warn(audioManager.value.play())
-  playing.value = typeof playing.value === 'boolean' ? playing : !playing.value
-  musicNotification.value.playOrPause(playing.value)
-  // 设置播放进度单位毫秒
-  musicNotification.value.setPosition(audioManager.value.currentTime * 1000)
-
-  if (playing.value) {
-    audioManager.value.play()
-  } else {
-    audioManager.value.pause()
-  }
 }
 
 const lockActivity = () => {
@@ -371,6 +327,33 @@ const logout = () => {
   // setTimeout(function() {
   // 	plus.runtime.quit();
   // }, 100)
+}
+
+// 整个列表播放结束事件
+const onAudioEnd = () => {}
+
+// 播放进度事件，currentTime为当前播放的时间，duration为播放总时长
+const onPlayProgress = (currentTime: number, duration: number) => {}
+
+// 改变事件，data为当前播放的数据，index为当前播放的索引
+const onAudioChange = (data: any, index: number) => {}
+
+// 点击播放列表按钮事件
+const onOpenAudioList = () => {}
+
+// 播放暂停
+const onPlayOrPause = async (pause: boolean) => {
+  if (!isCreateNotification.value) await createNotification()
+  playing.value = pause
+  musicNotification.value.playOrPause(playing.value)
+  // 设置播放进度单位毫秒
+  musicNotification.value.setPosition(audioManager.value.currentTime * 1000)
+
+  if (playing.value) {
+    audioManager.value.play()
+  } else {
+    audioManager.value.pause()
+  }
 }
 </script>
 

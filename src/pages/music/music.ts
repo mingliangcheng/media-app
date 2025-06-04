@@ -1,13 +1,13 @@
 export default [
   {
     id: 1, // ID
-    musicName: '美人谷', // 歌名
-    musicArtist: '阿兰', // 歌手
-    musicAlbum: '美人谷', // 专辑
+    title: '美人谷', // 歌名
+    singer: '阿兰', // 歌手
+    epname: '美人谷', // 专辑
     musicAlbumID: 1, // 专辑ID
-    musicAlbumURl:
+    image:
       'https://p1.music.126.net/byZ9hvAI2r20WBnuB-S_ng==/109951163069341151.jpg?imageView&thumbnail=360y360&quality=75&tostatic=0',
-    musicPath: '../../static/1.aac', // 路径
+    fileUrl: '../../static/1.aac', // 路径
     musicYear: '2017-10-27', // 发布年份
     musicDuration: 281000, // 时长
     size: 3436481, // 文件大小
@@ -80,13 +80,13 @@ export default [
   },
   {
     id: 2,
-    musicName: '朝暮',
-    musicArtist: '阿兰',
-    musicAlbum: '朝暮',
+    title: '朝暮',
+    singer: '阿兰',
+    epname: '朝暮',
     musicAlbumID: 2,
-    musicAlbumURl:
+    image:
       'https://p1.music.126.net/hB5AqPeXTg5Q-5BsyLiCwg==/109951164325877834.jpg?imageView&thumbnail=360y360&quality=75&tostatic=0',
-    musicPath: '../../static/2.mp3',
+    fileUrl: '../../static/2.mp3',
     // musicPath: "https://green-file.oss-cn-qingdao.aliyuncs.com/img/001/2023/04/11/0402085823574662-0.mp3",
     musicYear: '2019-08-28',
     musicDuration: 247000,

@@ -132,6 +132,14 @@
       }
     },
     {
+      "path": "pages/test/musicPlayer",
+      "type": "page",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "登录"
+      }
+    },
+    {
       "path": "pages/login/register",
       "type": "page",
       "style": {

@@ -34,7 +34,7 @@ onReachBottom(() => {
 const playMusic = () => {
   console.log(789)
   uni.navigateTo({
-    url: '/pages/music/playMusic',
+    url: '/pages/test/musicPlayer',
   })
 }
 const recommendSongs = [

@@ -53,7 +53,6 @@
 </template>
 
 <script>
-	let innerAudioContext = null;
 	export default {
 		name: "le-audio",
 		props: {
@@ -92,7 +91,11 @@
 			loopPlay: {
 				type: Boolean,
 				default: false
-			}
+			},
+      innerAudioContext: {
+        type:  Object,
+        default: null
+      }
 		},
 		data() {
 			return {
@@ -138,10 +141,10 @@
 		},
 		beforeDestroy() {
 			// #ifdef MP-ALIPAY || MP-LARK
-			innerAudioContext.destroy();
+			this.innerAudioContext.destroy();
 			// #endif
 			// #ifdef H5
-			innerAudioContext.pause();
+			this.innerAudioContext.pause();
 			// #endif
 		},
 		methods: {
@@ -154,7 +157,7 @@
 				this.$emit("onOpenAudioList")
 			},
 			startPlay() {
-				innerAudioContext = uni.getBackgroundAudioManager();
+				// innerAudioContext = uni.getBackgroundAudioManager();
 				/*
 				play		播放（H5端部分浏览器需在用户交互时进行）
 				pause		暂停
@@ -162,47 +165,47 @@
 				seek	position	跳转到指定位置，单位 s
 				destroy		销毁当前实例
 				*/
-				innerAudioContext.startTime = 0; //开始播放的位置（单位：s）
+				this.innerAudioContext.startTime = 0; //开始播放的位置（单位：s）
 				this.setAudioInfo(false);
 				// #ifdef H5
-				innerAudioContext.playbackRate(1.0);
+				this.innerAudioContext.playbackRate(1.0);
 				// #endif
 				// #ifndef H5
-				innerAudioContext.playbackRate = this.speed; //放的倍率。可取值：0.5/0.8/1.0/1.25/1.5/2.0
+				this.innerAudioContext.playbackRate = this.speed; //放的倍率。可取值：0.5/0.8/1.0/1.25/1.5/2.0
 				// 音频播放事件
-				innerAudioContext.onPlay(() => {
+				this.innerAudioContext.onPlay(() => {
 					this.onPlay();
 				});
 				// 音频暂停事件
-				innerAudioContext.onPause(() => {
+				this.innerAudioContext.onPause(() => {
 					this.onPause();
 				});
 				// 音频进入可以播放状态，但不保证后面可以流畅播放
-				innerAudioContext.onCanplay(() => {
+				this.innerAudioContext.onCanplay(() => {
 					this.onCanplay();
 				});
 				// 音频自然播放结束事件
-				innerAudioContext.onEnded(() => {
+				this.innerAudioContext.onEnded(() => {
 					this.onEnded();
 				});
 				// 音频播放错误事件
-				innerAudioContext.onError((res) => {
+				this.innerAudioContext.onError((res) => {
 					this.onError(res)
 				});
 				// 音频播放进度更新事件
-				innerAudioContext.onTimeUpdate(() => {
+				this.innerAudioContext.onTimeUpdate(() => {
 					this.setPlayData();
 				});
 				// #endif
 				// #ifndef H5 || MP-ALIPAY || MP-LARK
 				// 用户在系统音乐播放面板点击上一曲事件（iOS only）
-				innerAudioContext.onPrev(() => {
+				this.innerAudioContext.onPrev(() => {
 					// 切换到上一个音频
 					this.onSwitchAudio(this.audioActiveIndex - 1);
 					// console.log("用户在系统音乐播放面板点击下一曲事件（iOS only）");
 				});
 				// 用户在系统音乐播放面板点击下一曲事件（iOS only）
-				innerAudioContext.onNext(() => {
+				this.innerAudioContext.onNext(() => {
 					// 切换到下一个音频
 					this.onSwitchAudio(this.audioActiveIndex + 1);
 					// console.log("用户在系统音乐播放面板点击下一曲事件（iOS only）");
@@ -213,17 +216,18 @@
 			onPlayPause() {
 				if (this.isPaused) {
 					if (this.isEndAcudio) {
-						innerAudioContext.title = this.audioList[this.audioActiveIndex]?.title;
-						innerAudioContext.coverImgUrl = this.audioList[this.audioActiveIndex]?.image;
-						innerAudioContext.src = encodeURI(this.audioList[this.audioActiveIndex]?.fileUrl).replace(/\+/g,
+						this.innerAudioContext.title = this.audioList[this.audioActiveIndex]?.title;
+						this.innerAudioContext.coverImgUrl = this.audioList[this.audioActiveIndex]?.image;
+						this.innerAudioContext.src = encodeURI(this.audioList[this.audioActiveIndex]?.fileUrl).replace(/\+/g,
 							"%2B"); //音频的数据链接，用于直接播放。
 					}
-					innerAudioContext.play()
+					this.innerAudioContext.play()
 					this.isPaused = false;
 				} else {
-					innerAudioContext.pause()
+					this.innerAudioContext.pause()
 					this.isPaused = true;
 				}
+        this.$emit("onPlayOrPause", this.isPaused)
 			},
 			// 切换音频
 			onSwitchAudio(index) {
@@ -240,21 +244,21 @@
 			},
 			// 调整播放倍速
 			onSpeed() {
-				if (this.speed == 1) {
+				if (this.speed === 1) {
 					// #ifdef H5
-					innerAudioContext.playbackRate(1.5);
+					this.innerAudioContext.playbackRate(1.5);
 					this.speed = 1.5;
 					// #endif
 					// #ifndef H5
-					innerAudioContext.playbackRate = 2.0;
+					this.innerAudioContext.playbackRate = 2.0;
 					this.speed = 2;
 					// #endif
 				} else {
 					// #ifdef H5
-					innerAudioContext.playbackRate(1.0);
+					this.innerAudioContext.playbackRate(1.0);
 					// #endif
 					// #ifndef H5
-					innerAudioContext.playbackRate = 1.0;
+					this.innerAudioContext.playbackRate = 1.0;
 					// #endif
 					this.speed = 1;
 				}
@@ -267,14 +271,14 @@
 				if (seekNum < 0) {
 					// 调整后时间小于0
 					this.currentTime = 0;
-					innerAudioContext.seek(0)
+					this.innerAudioContext.seek(0)
 				} else if (seekNum > this.duration) {
 					// 调整后时间大于总时长
 					this.currentTime = this.duration;
-					innerAudioContext.seek(this.duration)
+					this.innerAudioContext.seek(this.duration)
 				} else {
 					this.currentTime = seekNum;
-					innerAudioContext.seek(seekNum)
+					this.innerAudioContext.seek(seekNum)
 				}
 				this.isSlidering = false;
 			},
@@ -282,7 +286,7 @@
 			sliderChange(e) {
 				this.isSlidering = false;
 				this.currentTime = e.detail.value;
-				innerAudioContext.seek(e.detail.value);
+				this.innerAudioContext.seek(e.detail.value);
 			},
 			// 滑块滚动到的位置 实时
 			sliderChanging(e) {
@@ -293,9 +297,9 @@
 			setPlayData(event) {
 				// #ifndef H5
 				if (this.isSlidering) return;
-				if (!innerAudioContext.duration && !innerAudioContext.currentTime) return;
-				this.duration = innerAudioContext.duration || 0;
-				this.currentTime = innerAudioContext.currentTime || 0;
+				if (!this.innerAudioContext.duration && !this.innerAudioContext.currentTime) return;
+				this.duration = this.innerAudioContext.duration || 0;
+				this.currentTime = this.innerAudioContext.currentTime || 0;
 				this.$emit("onPlayProgress", this.currentTime, this.duration)
 				// #endif
 				// #ifdef H5
@@ -307,30 +311,30 @@
 			},
 			// 设置播放
 			setAudioInfo(isAutoplay) {
-				if (innerAudioContext && this.audioActiveIndex > -1 && this.audioList[this.audioActiveIndex]?.fileUrl) {
-					innerAudioContext.title = this.audioList[this.audioActiveIndex]
+				if (this.innerAudioContext && this.audioActiveIndex > -1 && this.audioList[this.audioActiveIndex]?.fileUrl) {
+					this.innerAudioContext.title = this.audioList[this.audioActiveIndex]
 					?.title; //音频标题，用于做原生音频播放器音频标题。原生音频播放器中的分享功能，分享出去的卡片标题，也将使用该值。
-					innerAudioContext.coverImgUrl = this.audioList[this.audioActiveIndex]
+					this.innerAudioContext.coverImgUrl = this.audioList[this.audioActiveIndex]
 					?.image; //封面图url，用于做原生音频播放器背景图。原生音频播放器中的分享功能，分享出去的卡片配图及背景也将使用该图。
-					innerAudioContext.src = encodeURI(this.audioList[this.audioActiveIndex]?.fileUrl).replace(/\+/g,
+					this.innerAudioContext.src = encodeURI(this.audioList[this.audioActiveIndex]?.fileUrl).replace(/\+/g,
 					"%2B"); //音频的数据链接，用于直接播放。
 					// #ifndef H5 || MP-ALIPAY || MP-LARK
 					// 播放本地文件
 					if (this.audioList[this.audioActiveIndex]?.fileUrl.startsWith('/')) {
-						innerAudioContext.src = this.audioList[this.audioActiveIndex]?.fileUrl
+						this.innerAudioContext.src = this.audioList[this.audioActiveIndex]?.fileUrl
 					}
 					// #endif
-					innerAudioContext.epname = this.audioList[this.audioActiveIndex]
+					this.innerAudioContext.epname = this.audioList[this.audioActiveIndex]
 					?.epname; //专辑名，原生音频播放器中的分享功能，分享出去的卡片简介，也将使用该值。
-					innerAudioContext.singer = this.audioList[this.audioActiveIndex]
+					this.innerAudioContext.singer = this.audioList[this.audioActiveIndex]
 					?.singer; //歌手名，原生音频播放器中的分享功能，分享出去的卡片简介，也将使用该值。
-					innerAudioContext.webUrl = this.audioList[this.audioActiveIndex]
+					this.innerAudioContext.webUrl = this.audioList[this.audioActiveIndex]
 					?.webUrl; //页面链接，原生音频播放器中的分享功能，分享出去的卡片简介，也将使用该值。
 					if (isAutoplay || this.autoplay) {
-						innerAudioContext.play();
+						this.innerAudioContext.play();
 					} else {
 						// setTimeout(()=>{
-						innerAudioContext.pause();
+						this.innerAudioContext.pause();
 						// },100)
 					}
 				}
@@ -338,7 +342,7 @@
 					this.duration = 0;
 					this.currentTime = 0;
 					this.isPaused = true;
-					innerAudioContext.pause();
+					this.innerAudioContext.pause();
 				}
 			},
 			// 播放事件
@@ -386,7 +390,7 @@
 				this.duration = 0;
 				this.currentTime = 0;
 				this.isPaused = true;
-				innerAudioContext.pause();
+				this.innerAudioContext.pause();
 			},
 
 		}
